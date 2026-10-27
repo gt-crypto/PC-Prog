@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <mpi.h>
+int main(int argc,char **argv){
+    int r,a[4]={1,2,3,4},x,y,b[4];
+    MPI_Init(&argc,&argv);
+    MPI_Comm_rank(MPI_COMM_WORLD,&r);
+    MPI_Scatter(a,1,MPI_INT,&x,1,MPI_INT,0,MPI_COMM_WORLD);
+    y=2*x;
+    MPI_Gather(&y,1,MPI_INT,b,1,MPI_INT,0,MPI_COMM_WORLD);
+    if(r==0)printf("%d %d %d %d\n",b[0],b[1],b[2],b[3]);
+    MPI_Finalize();
+}
